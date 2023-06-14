@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from "react";
+import TodoForm from "./TodoForm.jsx";
+import TodoList from "./TodoList.jsx";
 
 const App = () => {
-  const [tasks, setTasks] = useState([]);
+  const [todo, setTodo] = useState([]);
 
   useEffect(() => {
-    fetch("/api/tasks")
+    fetch("/api/todo")
       .then((res) => res.json())
-      .then((tasks) => {
-        setTasks(tasks);
+      .then((todo) => {
+        setTodo(todo);
       });
-  }, []);
+  }, [todo]);
 
   return (
-    <main>
-      {tasks.map((task) => (
-        <span className="task" key={task.id}>
-          {task.description}
-        </span>
-      ))}
+    <main className="todo-app">
+      <div>
+        <p>To-Do List</p>
+      </div>
+      <div>
+        <TodoForm />
+        <TodoList todo={todo} />
+      </div>
     </main>
   );
 };

@@ -1,18 +1,50 @@
 import express from "express";
-import postgres from "postgres";
+import pg from "pg";
 import dotenv from "dotenv";
 
 dotenv.config({ path: "../.env" });
 
 const PORT = process.env.PORT;
-const sql = postgres(process.env.DATABASE_URL);
 const app = express();
+
+const db = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+});
 
 app.use(express.json());
 
-app.get("/api/tasks", (req, res) => {
-  sql`SELECT * FROM tasks`.then((rows) => {
-    res.send(rows);
+app.get("/api/todo", (req, res) => {
+  db.query("SELECT * FROM todo").then((result) => {
+    res.send(result.rows);
+  });
+});
+
+app.post("/api/todo", (req, res) => {
+  const { description } = req.body;
+  db.query("INSERT INTO todo (description) VALUES ($1) RETURNING *", [
+    description,
+  ]).then((result) => {
+    res.send(result.rows[0]);
+  });
+});
+
+app.delete("/api/todo/:id", (req, res) => {
+  const id = req.params.id;
+  db.query("DELETE FROM todo WHERE id = $1 RETURNING *", [id]).then(
+    (result) => {
+      res.send(result.rows[0]);
+    }
+  );
+});
+
+app.patch("/api/todo/:id", (req, res) => {
+  const id = req.params.id;
+  const { description } = req.body;
+  db.query("UPDATE todo SET description = $1 WHERE id = $2 RETURNING *", [
+    description,
+    id,
+  ]).then((result) => {
+    res.send(result.rows[0]);
   });
 });
 

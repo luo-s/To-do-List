@@ -1,12 +1,12 @@
-DROP TABLE IF EXISTS tasks;
+DROP TABLE IF EXISTS todo;
 
-CREATE TABLE tasks (
+CREATE TABLE todo (
   id SERIAL,
   description TEXT
 );
 
-INSERT INTO tasks(description) VALUES('Do the dishes');
-INSERT INTO tasks(description) VALUES('Walk the dog');
-INSERT INTO tasks(description) VALUES('Sweep the floor');
-INSERT INTO tasks(description) VALUES('Do your homework');
-INSERT INTO tasks(description) VALUES('Beat Elden Ring');
+INSERT INTO todo(description) VALUES('Homework');
+INSERT INTO todo(description) VALUES('Grocery');
+INSERT INTO todo(description) VALUES('Meeting');
+INSERT INTO todo(description) VALUES('Workout');
+INSERT INTO todo(description) VALUES('Laundry');

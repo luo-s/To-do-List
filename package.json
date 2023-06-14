@@ -13,5 +13,9 @@
   },
   "devDependencies": {
     "concurrently": "^7.1.0"
+  },
+  "dependencies": {
+    "pg": "^8.11.0",
+    "react-icons": "^4.9.0"
   }
 }
